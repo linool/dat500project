@@ -22,7 +22,7 @@ with open("filenames_no_domain") as file:
                 except: 
                     print("Couldn't download file "+url)
             if path.exists(file_name):
-                #subprocess.run('gunzip '+file_name,shell=True)
+                subprocess.run('gunzip '+file_name,shell=True)
                 file_name = file_name[:-3]
                 with open(file_name, encoding="utf-8") as f:
                     is_no_domain = False

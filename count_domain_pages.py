@@ -11,7 +11,7 @@ class MRCountSum(MRJob):
             link = urlparse(page_dict["url"])
             domain = link.hostname
             if domain:
-                if page_dict["status"] == "200":
+                if page_dict["mime-detected"] == "text/html":
                     tmp = domain.split(".")
                     domain = tmp[-2]+"."+tmp[-1]
                     yield domain, 1

@@ -2,6 +2,17 @@ from mrjob.job import MRJob
 from urllib.parse import urlparse
 import string
 
+def n_grams(words_list, n):
+    ngrams_list = []
+    if n > len(words_list):
+        return ngrams_list
+    for i in range(len(words_list)-n+1):
+        tmp = ['']*n
+        for j in range(n):
+            tmp[j] = words_list[i+j]
+        ngrams_list.append(tmp)
+    return ngrams_list
+
 def remove_punctuation(line):
     tmp = ''
     for ch in line:
@@ -34,8 +45,12 @@ class MRMultilineInput(MRJob):
             else:
                 text = ' '.join(self.body)
                 text = remove_punctuation(text)
-                total = len(text.split())
-                yield self.topdomain, total
+                words = text.split()
+                # generate n-grams
+                n = 2
+                xgrams = n_grams(words, n)
+                for x in xgrams:
+                    yield x, 1
                 self.in_body = False
                 self.topdomain = ''
                 self.body = []

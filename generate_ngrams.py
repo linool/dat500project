@@ -1,6 +1,7 @@
 from mrjob.job import MRJob
 from urllib.parse import urlparse
-import string
+
+string_punctuation = '!,.:;?'
 
 def n_grams(words_list, n):
     ngrams_list = []
@@ -12,15 +13,6 @@ def n_grams(words_list, n):
             tmp[j] = words_list[i+j]
         ngrams_list.append(tmp)
     return ngrams_list
-
-def remove_punctuation(line):
-    tmp = ''
-    for ch in line:
-        if ch not in string.punctuation:
-            tmp = tmp + ch
-        else: 
-            tmp = tmp + ' '
-    return tmp
 
 class MRMultilineInput(MRJob):
     def mapper_init(self):
@@ -44,8 +36,16 @@ class MRMultilineInput(MRJob):
                 self.in_body = True
             else:
                 text = ' '.join(self.body)
-                text = remove_punctuation(text)
                 words = text.split()
+                for word in words:
+                    if word[-1] in string_punctuation:
+                        word = word[:-1]
+                        if word and word[-1] == '.':
+                                word = word[:-1]
+                                if word and word[-1] == '.':
+                                    word = word[:-1]
+                                    if word and word[-1] == '.':
+                                        word = word[:-1] 
                 # generate n-grams
                 n = 2
                 xgrams = n_grams(words, n)

@@ -62,23 +62,25 @@ class MRMultilineInput(MRJob):
             if not self.in_body:
                 self.in_body = True
             else:
-                for text in self.body:
-                    text = text.lower()
-                    words = text.split()
-                    # generate n-grams
-                    n = 2
-                    xgrams = n_grams(words, n)
-                    for x in xgrams:
-                        if is_ngrams(x,n):
-                            x = remove_trailing_punctuation(x,n)
-                            if x and x[0]: 
-                                yield x, 1
+                if len(self.body)>0:
+                    for text in self.body:
+                        text = text.lower()
+                        words = text.split()
+                        # generate n-grams
+                        n = 3
+                        xgrams = n_grams(words, n)
+                        for x in xgrams:
+                            if is_ngrams(x,n):
+                                x = remove_trailing_punctuation(x,n)
+                                if x and x[0]: 
+                                    yield x, 1
                 self.in_body = False
                 self.topdomain = ''
                 self.body = []
 
         if self.in_body:
-            self.body.append(line)
+            if self.topdomain == 'aftenposten.no' or self.topdomain == 'vg.no':
+                self.body.append(line)
 
     def combiner(self, key, values):
         yield key, sum(values)

@@ -14,8 +14,7 @@ with open("cc-index.paths") as index_paths_file:
         if index_file_name[-3:] == '.gz':
             subprocess.run('gunzip '+index_file_name,shell=True)
             index_file_name = index_file_name[:-3]
-        with open(index_file_name) as file:
+        with open(index_file_name) as file, open('pages_domain_no.txt','a') as w:
             for page in file:
                 if page[:3] == 'no,':
-                    with open('pages_domain_no.txt','a') as w:
-                        w.write(page)
+                    w.write(page)

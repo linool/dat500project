@@ -1,5 +1,6 @@
 from mrjob.job import MRJob
 from urllib.parse import urlparse
+import string
 
 string_punctuation = '!,.:;?'
 
@@ -46,7 +47,8 @@ class MRMultilineInput(MRJob):
                                     word = word[:-1]
                                     if word and word[-1] == '.':
                                         word = word[:-1]                    
-                    yield word, 1
+                    if word and word[0] not in string.punctuation and not word[0].isdigit():
+                        yield word.lower(), 1
                 self.in_body = False
                 self.topdomain = ''
                 self.body = []

@@ -8,7 +8,12 @@ with open(input_file) as f:
         line = line.strip()
         lines.append(line)
 def onegram_count(line):
-    return int(line.split()[1])
+    try:
+        tmp = int(line.split()[-1])
+        return tmp
+    except:
+        return 1
+
 lines.sort(key=onegram_count, reverse=True)
 with open(sorted_output_file, "w") as w:
     w.write('\n'.join(lines))

@@ -28,7 +28,7 @@ def remove_punctuation(x):
 #df = spark.read.text("hdfs:///project/wet_files/1_extracted_from_wet_files")
 #rdd = SparkContext.textFile("hdfs:///project/wet_files/1_extracted_from_wet_files")
 sc = SparkContext.getOrCreate(SparkConf())
-rdd = sc.textFile("hdfs:///project/wet_files/1_extracted_from_wet_files")
+rdd = sc.textFile("hdfs:///project/wet_files/3_extracted_from_wet_files")
 ngram_count = rdd.map(remove_punctuation).flatMap(lambda x: n_grams(x.split(),3)).map(lambda x: (x, 1)).combineByKey(lambda v: v, lambda acc, v: acc + v, lambda acc1, acc2: acc1 + acc2)
 ngram_count.saveAsTextFile("hdfs:///project/output_files/spark_ngram_count_output/")
 

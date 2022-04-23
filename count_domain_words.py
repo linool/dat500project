@@ -11,7 +11,7 @@ def remove_punctuation(line):
             tmp = tmp + ' '
     return tmp
 
-class MRMultilineInput(MRJob):
+class MRDomainWords(MRJob):
     def mapper_init(self):
         self.topdomain = ''
         self.in_body = False
@@ -50,4 +50,4 @@ class MRMultilineInput(MRJob):
         yield key, sum(values)
 
 if __name__ == '__main__':
-    MRMultilineInput.run()
+    MRDomainWords.run()

@@ -45,5 +45,8 @@ with open("filenames_no_domain") as file:
                             line_list.append(f_line)
                         else:
                             line_list.append(f_line)
+                    if is_no_domain:     
+                        with open('extracted_from_wet_files','a',encoding="utf-8") as w:
+                            w.write('\n'.join(line_list))
                 subprocess.run('rm '+file_name,shell=True)
 

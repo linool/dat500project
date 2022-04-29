@@ -8,15 +8,9 @@ class MRCountSum(MRJob):
         line = line.strip()
         try:
             page_dict = json.loads(line[line.find('{"url":'):])
-            lan = page_dict["languages"]
-            if lan:
-                if page_dict["mime-detected"] == "text/html":
-                    if lan.find(',') == -1:
-                        yield lan, 1
-                        yield "in_total", 1
-                    else:
-                        yield "mixed_languages", 1
-                        yield "in_total", 1
+            charset = page_dict["charset"]
+            if charset:
+                yield charset, 1
         except:
             yield "error", 1
 

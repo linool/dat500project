@@ -11,6 +11,7 @@ class MRCountSum(MRJob):
             format = page_dict["mime-detected"]
             if format:
                 yield format, 1
+                yield "in_total", 1
         except:
             yield "error", 1
 

@@ -7,7 +7,8 @@ from os import path
 with open("filenames_uis_no.txt") as file:
     for line in file:
         line = line.strip()
-        line = line.replace(".warc.", ".warc.wet.")
+        if line.find(".warc.wet.") == -1:
+            line = line.replace(".warc.", ".warc.wet.")
         tmp = line.split('/')
         if  tmp[4] == 'crawldiagnostics' or tmp[4] == 'robotstxt':
             continue
@@ -16,7 +17,7 @@ with open("filenames_uis_no.txt") as file:
             print(line)
             file_name = tmp[-1]
             if not path.exists(file_name):
-                url = 'https://commoncrawl.s3.amazonaws.com/' + line
+                url = 'https://data.commoncrawl.org/' + line
                 try:
                     urllib.request.urlretrieve(url, file_name)
                 except:

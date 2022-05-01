@@ -6,7 +6,8 @@ lines = []
 with open(input_file) as f:
     for line in f:
         line = line.strip()
-        lines.append(line)
+        if int(line.split()[-1])>1:
+            lines.append(line)
 def onegram_count(line):
     try:
         tmp = int(line.split()[-1])
@@ -16,5 +17,7 @@ def onegram_count(line):
 
 lines.sort(key=onegram_count, reverse=True)
 with open(sorted_output_file, "w") as w:
-    w.write('\n'.join(lines))
+    for line in lines:
+        w.write(line+'\n')
+        #w.write('\n'.join(lines))
 

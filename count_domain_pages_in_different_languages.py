@@ -17,6 +17,12 @@ class MRCountSum(MRJob):
                     else:
                         yield "mixed_languages", 1
                         yield "in_total", 1
+                        if lan.find('nor') != -1:
+                            yield "nor_in_mixed", 1
+                        if lan.find('eng') != -1:
+                            yield "eng_in_mixed", 1
+                        if lan.find('nno') != -1:
+                            yield "nno_in_mixed", 1
         except:
             yield "error", 1
 
